@@ -1,0 +1,25 @@
+
+
+h1 {
+  font-weight: bold;
+  text-transform: uppercase; 
+  margin-top: 50px;
+  margin-bottom: 30px;
+  font-size: 25px;
+  letter-spacing: .2em;
+}
+
+img {
+  margin-top:30px;
+}
+
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+  width: 60%;
+  opacity: .75;
+}
