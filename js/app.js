@@ -14,29 +14,37 @@ var firstAndPike = {
   minCustomers: 23,
   maxCustomers: 65,
   averageCookieSales: 6.3,
+  customersEachHour: [],
   hourlySales: [],
-  randomCustomers: function(){
-    return Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers;
+  totalCookiesForTheDay: 0,
+  hourlyCustomersCalculator: function(){
+    for (var i = 0; i < storeHours.length; i++){
+      this.customersEachHour.push(randomCustomers(this.minCustomers, this.maxCustomers));
+    }
   },
   hourlySalesCalculator: function(){
+    // calling the function needed
+    this.hourlyCustomersCalculator();
     for (var i = 0; i < storeHours.length; i++){
-      this.hourlySales.push((Math.ceil(this.randomCustomers() * this.averageCookieSales)));
+      var oneHourOfCookies = Math.ceil(this.customersEachHour[i] * this.averageCookieSales);
+      this.hourlySales.push(oneHourOfCookies);
+      this.totalCookiesForTheDay += oneHourOfCookies;
+      
     }
   },
   render: function(){
     for (var i = 0; i < storeHours.length; i++){
       // create element
       var liEl = document.createElement('li');
-
-
       // give content
       liEl.textContent = storeHours[i] + ': ' + this.hourlySales[i] + ' cookies';
-
-
       // append to dom
       firstAndPikeHourlySales.appendChild(liEl);
 
     }
+    liEl = document.createElement('li');
+    liEl.textContent = `Total: ${this.totalCookiesForTheDay} cookies`;
+    firstAndPikeHourlySales.appendChild(liEl);
   }
 };
 
@@ -122,7 +130,7 @@ var capitolHill = {
 
 
       // give content
-      liEl.textContent = storeHours[i] + ': ' + this.hourlySales[i] + ' cookies';
+      liEl.textContent = storeHours[i] + ': ' + this.hourlySales[i] + ' cookies ';
 
 
       // append to dom
@@ -159,10 +167,16 @@ var alki = {
       alkiHourlySales.appendChild(liEl);
 
     }
-  }
+  },
 };
 
 var stores = [firstAndPike,seaTacAirport,seattleCenter,capitolHill,alki];
+
+// helper function
+function randomCustomers(min, max){
+  // following line from MDN docs on Math.random
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 for (var i = 0; i < stores.length; i++){
   stores[i].hourlySalesCalculator();
