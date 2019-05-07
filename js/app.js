@@ -6,6 +6,7 @@ var alkiHourlySales = document.getElementById('alki-hourly-sales');
 
 var storeHours = ['6am', '7am', '8am', '9am','10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 
+
 // JAVASCRIPT OBJECTS
 
 // First and Pike Store
@@ -161,18 +162,11 @@ var alki = {
   }
 };
 
+var stores = [firstAndPike,seaTacAirport,seattleCenter,capitolHill,alki];
 
-firstAndPike.hourlySalesCalculator();
-seaTacAirport.hourlySalesCalculator();
-seattleCenter.hourlySalesCalculator();
-capitolHill.hourlySalesCalculator();
-alki.hourlySalesCalculator();
+for (var i = 0; i < stores.length; i++){
+  stores[i].hourlySalesCalculator();
+  stores[i].render();
+}
 
-
-
-firstAndPike.render();
-seaTacAirport.render();
-seattleCenter.render();
-capitolHill.render();
-alki.render();
 
