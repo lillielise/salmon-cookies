@@ -14,7 +14,14 @@ tr td:first-child {
 th {
   font-weight: bold;
   background-color: salmon;
+  text-transform: uppercase;
 }
+
+tr: even{
+
+}
+
+t
 
 tr td:first-child, th, tr td:last-child {
   font-weight: bold; 

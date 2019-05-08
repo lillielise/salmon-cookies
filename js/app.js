@@ -1,12 +1,14 @@
 'use strict';
-var allStores = [];
+
+// global DOM call
 var salesTable = document.getElementById('sales-table');
 
+// setup arrays
 var storesHours = ['6am', '7am', '8am', '9am','10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
+var allStores = [];
 
 
-
-// store constructors
+// S tore constructors
 function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
   this.storeLocation = storeLocation;
   this.minCustomers = minCustomers;
@@ -36,22 +38,32 @@ function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
   this.makeTable = function(){
     // create the row
     var trEl = document.createElement('tr');
-    // start the array with the name
+    // start the row with the name
     var tdEl = document.createElement('td');
+    // add content to the row
     tdEl.textContent = this.storeLocation;
+    // append the content
     trEl.appendChild(tdEl);
     for (var i = 0; i < storesHours.length; i++){
-      // create, content, append first cell
+      // create the table data
       var tdEl = document.createElement('td');
+      // give content to the table data
       tdEl.textContent = this.hourlySales[i];
+      //append the table data
       trEl.appendChild(tdEl);
       // append the row to the table
-      salesTable.appendChild(trEl);
+     
     }
     // create the totals population
     var tdEl = document.createElement('td');
+    // add content to the totals 
     tdEl.textContent = this.totalCookiesForTheDay;
+    // append the totals
     trEl.appendChild(tdEl);
+
+    // elink to the html
+    salesTable.appendChild(trEl);
+    
   };
   allStores.push(this);
 }
