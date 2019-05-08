@@ -1,7 +1,6 @@
 'use strict';
 var allStores = [];
-var storeHours = document.getElementById('store-hours');
-var eachStoreHourlySales = document.getElementById('each-store-hourly-sales');
+var salesTable = document.getElementById('sales-table');
 
 var storesHours = ['6am', '7am', '8am', '9am','10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 
@@ -37,7 +36,7 @@ function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
   this.makeTable = function(){
     // create the row
     var trEl = document.createElement('tr');
-    // start the array with the name 
+    // start the array with the name
     var tdEl = document.createElement('td');
     tdEl.textContent = this.storeLocation;
     trEl.appendChild(tdEl);
@@ -47,7 +46,7 @@ function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
       tdEl.textContent = this.hourlySales[i];
       trEl.appendChild(tdEl);
       // append the row to the table
-      eachStoreHourlySales.appendChild(trEl);
+      salesTable.appendChild(trEl);
     }
     // create the totals population
     var tdEl = document.createElement('td');
@@ -68,7 +67,7 @@ var alki = new Store('Alki', 2, 16, 4.6);
 
 // create header for table
 function makeHeaderRow(){
-  // create the row 
+  // create the row
   var trEl = document.createElement('tr');
   // create the location header
   var thEl = document.createElement('th');
@@ -81,7 +80,7 @@ function makeHeaderRow(){
     thEl.textContent = storesHours[i];
     trEl.appendChild(thEl);
     // append the row to the table
-    storeHours.appendChild(trEl);
+    salesTable.appendChild(trEl);
   }
   //create the total header
   var thEl = document.createElement('th');
@@ -89,6 +88,16 @@ function makeHeaderRow(){
   trEl.appendChild(thEl);
 
 }
+
+// var allHourlyTotals = [];
+// // bottom row
+// function makeFooter(){
+//   for (var i = 0; i < storesHours.length; i++){
+//     var allStoreHourlyTotals = firstAndPike.hourlySales[i] + seaTacAirport.hourlySales[i] + seattleCenter.hourlySales[i] + capitolHill.hourlySales[i] + alki.hourlySales[i];
+//     allStoreHourlyTotals.push(allHourlyTotals);
+//   }
+// }
+
 
 firstAndPike.hourlySalesCalculator();
 seaTacAirport.hourlySalesCalculator();
@@ -98,6 +107,8 @@ alki.hourlySalesCalculator();
 
 
 makeHeaderRow();
+
+
 firstAndPike.makeTable();
 seaTacAirport.makeTable();
 seattleCenter.makeTable();
