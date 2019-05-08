@@ -6,6 +6,10 @@ var salesTable = document.getElementById('sales-table');
 // setup arrays
 var storesHours = ['6am', '7am', '8am', '9am','10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 var allStores = [];
+var allStoresHourlyTotalsArray = [];
+var hourlyTotals = [];
+var grandTotal = 0;
+
 
 
 // S tore constructors
@@ -44,28 +48,31 @@ function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
     tdEl.textContent = this.storeLocation;
     // append the content
     trEl.appendChild(tdEl);
+
     for (var i = 0; i < storesHours.length; i++){
       // create the table data
-      var tdEl = document.createElement('td');
+      tdEl = document.createElement('td');
       // give content to the table data
       tdEl.textContent = this.hourlySales[i];
       //append the table data
       trEl.appendChild(tdEl);
       // append the row to the table
-     
+
     }
     // create the totals population
-    var tdEl = document.createElement('td');
-    // add content to the totals 
+    tdEl = document.createElement('td');
+    // add content to the totals
     tdEl.textContent = this.totalCookiesForTheDay;
     // append the totals
     trEl.appendChild(tdEl);
 
     // elink to the html
     salesTable.appendChild(trEl);
-    
+
   };
+  // pushing all data to the array
   allStores.push(this);
+  allStoresHourlyTotalsArray.push(this.hourlySales);
 }
 
 // creating variables for new objects
@@ -75,7 +82,26 @@ var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
 var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 2, 16, 4.6);
 
+// function to call all functions
+function callAllFunctions (){
+  for (var i = 0; i < allStores.length; i++){
+    allStores[i].hourlySalesCalculator();
+    allStores[i].makeTable();
+  }
+}
 
+
+// create function to add sum of all stores sales by hour
+function sumHourlyTotals(){
+  for (var i = 0; i < storesHours.length; i++){
+    var hourlySum = 0;
+    for (var j = 0; j < allStores.length; j++){
+      hourlySum += allStores[j].hourlySales[i];
+    }
+    hourlyTotals.push(hourlySum);
+    grandTotal += hourlySum;
+  }
+}
 
 // create header for table
 function makeHeaderRow(){
@@ -88,41 +114,49 @@ function makeHeaderRow(){
 
   for (var i = 0; i < storesHours.length; i++){
     // create the hours with a loop
-    var thEl = document.createElement('th');
+    thEl = document.createElement('th');
     thEl.textContent = storesHours[i];
     trEl.appendChild(thEl);
-    // append the row to the table
-    salesTable.appendChild(trEl);
+
   }
   //create the total header
-  var thEl = document.createElement('th');
+  thEl = document.createElement('th');
   thEl.textContent = 'Total';
   trEl.appendChild(thEl);
+  salesTable.appendChild(trEl);
 
 }
 
-// var allHourlyTotals = [];
-// // bottom row
-// function makeFooter(){
-//   for (var i = 0; i < storesHours.length; i++){
-//     var allStoreHourlyTotals = firstAndPike.hourlySales[i] + seaTacAirport.hourlySales[i] + seattleCenter.hourlySales[i] + capitolHill.hourlySales[i] + alki.hourlySales[i];
-//     allStoreHourlyTotals.push(allHourlyTotals);
-//   }
-// }
+function makeFooterRow(){
+  // create the row 
+  var trEl = document.createElement('tr');
+  // create footer
+  var tfEl = document.createElement('tfoot');
+  var tdEl = document.createElement('td');
+  tdEl.textContent = 'Total Per Hour';
+  trEl.appendChild(tdEl);
+
+  for (var i = 0; i < hourlyTotals.length; i++){
+    var tdEl = document.createElement('td');
+    tdEl.textContent = hourlyTotals[i];
+    trEl.appendChild(tdEl);
+  
+  }
+  // create grand total header
+  tdEl = document.createElement('td');
+  tdEl.textContent = grandTotal;
+  trEl.appendChild(tdEl);
+  salesTable.appendChild(trEl);
+}
 
 
-firstAndPike.hourlySalesCalculator();
-seaTacAirport.hourlySalesCalculator();
-seattleCenter.hourlySalesCalculator();
-capitolHill.hourlySalesCalculator();
-alki.hourlySalesCalculator();
 
 
 makeHeaderRow();
+callAllFunctions();
+sumHourlyTotals();
+makeFooterRow();
 
 
-firstAndPike.makeTable();
-seaTacAirport.makeTable();
-seattleCenter.makeTable();
-capitolHill.makeTable();
-alki.makeTable();
+
+

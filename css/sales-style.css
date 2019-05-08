@@ -1,4 +1,4 @@
-table, th, td {
+th, td {
   padding: 15px;
   border: 1px solid black;
 }
@@ -7,23 +7,20 @@ table {
   border: 4px solid black; 
 }
 
-tr td:first-child {
+tr td:first-child, th{
   background-color: salmon;
 }
 
 th {
-  font-weight: bold;
-  background-color: salmon;
   text-transform: uppercase;
 }
 
-tr: even{
+/* tr: even{
 
-}
+} */
 
-t
 
-tr td:first-child, th, tr td:last-child {
+tr td:first-child, th, tr td:last-child, tr:last-child{
   font-weight: bold; 
 }
 
