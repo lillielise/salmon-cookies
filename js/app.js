@@ -2,6 +2,7 @@
 
 // global DOM call
 var salesTable = document.getElementById('sales-table');
+var storeForm = document.getElementById('store-form');
 
 // setup arrays
 var storesHours = ['6am', '7am', '8am', '9am','10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
@@ -12,7 +13,7 @@ var grandTotal = 0;
 
 
 
-// S tore constructors
+// Store constructors
 function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
   this.storeLocation = storeLocation;
   this.minCustomers = minCustomers;
@@ -39,7 +40,7 @@ function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
     }
   };
 
-  this.makeTable = function(){
+  this.render = function(){
     // create the row
     var trEl = document.createElement('tr');
     // start the row with the name
@@ -76,17 +77,17 @@ function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
 }
 
 // creating variables for new objects
-var firstAndPike = new Store('First and Pike', 23, 65, 6.3);
-var seaTacAirport = new Store('SeaTac Airport', 3, 24, 1.2);
-var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
-var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
-var alki = new Store('Alki', 2, 16, 4.6);
+new Store('First and Pike', 23, 65, 6.3);
+new Store('SeaTac Airport', 3, 24, 1.2);
+new Store('Seattle Center', 11, 38, 3.7);
+new Store('Capitol Hill', 20, 38, 2.3);
+new Store('Alki', 2, 16, 4.6);
 
 // function to call all functions
 function callAllFunctions (){
   for (var i = 0; i < allStores.length; i++){
     allStores[i].hourlySalesCalculator();
-    allStores[i].makeTable();
+    allStores[i].render();
   }
 }
 
@@ -98,7 +99,7 @@ function sumHourlyTotals(){
     for (var j = 0; j < allStores.length; j++){
       hourlySum += allStores[j].hourlySales[i];
     }
-    hourlyTotals.push(hourlySum);
+    hourlyTotals[i] = hourlySum;
     grandTotal += hourlySum;
   }
 }
@@ -128,35 +129,69 @@ function makeHeaderRow(){
 }
 
 function makeFooterRow(){
-  // create the row 
-  var trEl = document.createElement('tr');
-  // create footer
   var tfEl = document.createElement('tfoot');
+
+  var trEl = document.createElement('tr');
+
   var tdEl = document.createElement('td');
   tdEl.textContent = 'Total Per Hour';
   trEl.appendChild(tdEl);
 
   for (var i = 0; i < hourlyTotals.length; i++){
-    var tdEl = document.createElement('td');
+    tdEl = document.createElement('td');
     tdEl.textContent = hourlyTotals[i];
     trEl.appendChild(tdEl);
-  
+
+
   }
   // create grand total header
   tdEl = document.createElement('td');
   tdEl.textContent = grandTotal;
   trEl.appendChild(tdEl);
-  salesTable.appendChild(trEl);
+  tfEl.appendChild(trEl);
+  salesTable.appendChild(tfEl);
 }
 
 
+// This function is the event handler for store submission form
+function handleStoreSubmit(event){
+
+  event.preventDefault(); // prevents the page reload on a 'submit' event
+
+  // target the input values to apply to constructor
+  var storeLocation = event.target.storelocation.value;
+  var minCustomers = event.target.mincustomers.value;
+  var maxCustomers = event.target.maxcustomers.value;
+  var averageCookieSales = event.target.averagecookies.value;
+
+  // create new object with constructro
+  new Store(storeLocation, minCustomers, maxCustomers, averageCookieSales);
+
+  // empties the form fields after the data has been grabbed
+  // event.target.storelocation.value = null;
+  // event.target.mincustomers.value = null;
+  // event.target.maxcustomers.value = null;
+  // event.target.averagecookies.value = null;
+
+  salesTable.innerHTML = '';
+
+  makeHeaderRow();
+  callAllFunctions();
+  grandTotal = 0;
+  sumHourlyTotals();
+  makeFooterRow();
+
+}
+
+// Event listener for store submission form
 
 
+// calling rest of functions
 makeHeaderRow();
 callAllFunctions();
 sumHourlyTotals();
 makeFooterRow();
 
 
-
+storeForm.addEventListener('submit', handleStoreSubmit);
 
