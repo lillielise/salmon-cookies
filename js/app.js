@@ -1,19 +1,25 @@
+//indicates that code should be executed in strict mode
 'use strict';
 
-// global DOM call
+// global DOM call for sales table and sales form
 var salesTable = document.getElementById('sales-table');
 var storeForm = document.getElementById('store-form');
 
 // setup arrays
 var storesHours = ['6am', '7am', '8am', '9am','10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
+
+// hold all the instances of the stores
 var allStores = [];
+// an array that holds arrays for all the stores hours
 var allStoresHourlyTotalsArray = [];
+// an array with the totals for all stores each hour
 var hourlyTotals = [];
+
 var grandTotal = 0;
 
 
 
-// Store constructors
+/// STORE CONSTRUCTOR ///
 function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
   this.storeLocation = storeLocation;
   this.minCustomers = minCustomers;
@@ -22,61 +28,73 @@ function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
   this.customersEachHour = [];
   this.hourlySales = [];
   this.totalCookiesForTheDay = 0;
-  this.randomCustomers = function(min, max){
-    // following line from MDN docs on Math.random
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-  this.hourlyCustomersCalculator = function(){
-    for (var i = 0; i < storesHours.length; i++){
-      this.customersEachHour.push(this.randomCustomers(this.minCustomers, this.maxCustomers));
-    }
-  };
-  this.hourlySalesCalculator = function(){
-    this.hourlyCustomersCalculator();
-    for (var i = 0; i < storesHours.length; i++){
-      var oneHourOfCookies = Math.ceil(this.customersEachHour[i] * this.averageCookieSales);
-      this.hourlySales.push(oneHourOfCookies);
-      this.totalCookiesForTheDay += oneHourOfCookies;
-    }
-  };
-
-  this.render = function(){
-    // create the row
-    var trEl = document.createElement('tr');
-    // start the row with the name
-    var tdEl = document.createElement('td');
-    // add content to the row
-    tdEl.textContent = this.storeLocation;
-    // append the content
-    trEl.appendChild(tdEl);
-
-    for (var i = 0; i < storesHours.length; i++){
-      // create the table data
-      tdEl = document.createElement('td');
-      // give content to the table data
-      tdEl.textContent = this.hourlySales[i];
-      //append the table data
-      trEl.appendChild(tdEl);
-      // append the row to the table
-
-    }
-    // create the totals population
-    tdEl = document.createElement('td');
-    // add content to the totals
-    tdEl.textContent = this.totalCookiesForTheDay;
-    // append the totals
-    trEl.appendChild(tdEl);
-
-    // elink to the html
-    salesTable.appendChild(trEl);
-
-  };
-  // pushing all data to the array
+  // pushing the instance to the allStores array
   allStores.push(this);
+  // pushing the array of hourly sales for this instance into the allStoresHourlyTotals array
   allStoresHourlyTotalsArray.push(this.hourlySales);
 }
 
-// creating variables for new objects
+
+
+/// PROTOTYPE TIME ///
+
+// prototype to generate a random customer number to call in hourlyCustomersCalculator function
+Store.prototype.randomCustomers = function(min, max){
+  // following line from MDN docs on Math.random
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+// prototype to generate the hourly customers
+Store.prototype.hourlyCustomersCalculator = function(){
+  for (var i = 0; i < storesHours.length; i++){
+    this.customersEachHour.push(this.randomCustomers(this.minCustomers, this.maxCustomers));
+  }
+};
+
+// prototype to generate hourly sales using theHourlyCustomersCalculator
+Store.prototype.hourlySalesCalculator = function(){
+  this.hourlyCustomersCalculator();
+  for (var i = 0; i < storesHours.length; i++){
+    var oneHourOfCookies = Math.ceil(this.customersEachHour[i] * this.averageCookieSales);
+    this.hourlySales.push(oneHourOfCookies);
+    this.totalCookiesForTheDay += oneHourOfCookies;
+  }
+};
+
+// prototype to render to the DOM
+Store.prototype.render = function(){
+  // create the row element
+  var trEl = document.createElement('tr');
+  // create the td element
+  var tdEl = document.createElement('td');
+  // add content to the td
+  tdEl.textContent = this.storeLocation;
+  // append the content
+  trEl.appendChild(tdEl);
+
+  for (var i = 0; i < storesHours.length; i++){
+    // create the table data element
+    tdEl = document.createElement('td');
+    // give content to the td
+    tdEl.textContent = this.hourlySales[i];
+    //append the table data
+    trEl.appendChild(tdEl);
+  }
+
+  // create the td element
+  tdEl = document.createElement('td');
+  // add the total of total cookies sold to the td
+  tdEl.textContent = this.totalCookiesForTheDay;
+  // append the td
+  trEl.appendChild(tdEl);
+
+  // links the table to the html
+  salesTable.appendChild(trEl);
+
+};
+
+
+/// NEW INSTANCES ///
 new Store('First and Pike', 23, 65, 6.3);
 new Store('SeaTac Airport', 3, 24, 1.2);
 new Store('Seattle Center', 11, 38, 3.7);
@@ -92,7 +110,7 @@ function callAllFunctions (){
 }
 
 
-// create function to add sum of all stores sales by hour
+// create function to add sum of all stores sales by hour and add to the grand total
 function sumHourlyTotals(){
   for (var i = 0; i < storesHours.length; i++){
     var hourlySum = 0;
@@ -104,23 +122,26 @@ function sumHourlyTotals(){
   }
 }
 
-// create header for table
+/// HEADER AND FOOTER ///
 function makeHeaderRow(){
-  // create the row
+  // create the tr element
   var trEl = document.createElement('tr');
-  // create the location header
+  // create the th element
   var thEl = document.createElement('th');
+  // add content to the th elment
   thEl.textContent = 'Locations';
+  // append the th element 
   trEl.appendChild(thEl);
 
+
+  // create the hours with a loop
   for (var i = 0; i < storesHours.length; i++){
-    // create the hours with a loop
     thEl = document.createElement('th');
     thEl.textContent = storesHours[i];
     trEl.appendChild(thEl);
-
   }
-  //create the total header
+
+  // creat the th element for the total header
   thEl = document.createElement('th');
   thEl.textContent = 'Total';
   trEl.appendChild(thEl);
@@ -128,11 +149,11 @@ function makeHeaderRow(){
 
 }
 
+
 function makeFooterRow(){
+  // tfoot is the parent of the tr element so you create it first
   var tfEl = document.createElement('tfoot');
-
   var trEl = document.createElement('tr');
-
   var tdEl = document.createElement('td');
   tdEl.textContent = 'Total Per Hour';
   trEl.appendChild(tdEl);
@@ -147,51 +168,45 @@ function makeFooterRow(){
   // create grand total header
   tdEl = document.createElement('td');
   tdEl.textContent = grandTotal;
+  // set grand total to zero so it doesn't add to itself
+  grandTotal = 0;
   trEl.appendChild(tdEl);
   tfEl.appendChild(trEl);
   salesTable.appendChild(tfEl);
 }
 
 
-// This function is the event handler for store submission form
+// EVENT HANDLER /// 
 function handleStoreSubmit(event){
 
   event.preventDefault(); // prevents the page reload on a 'submit' event
 
-  // target the input values to apply to constructor
+  // capture the data from the form
   var storeLocation = event.target.storelocation.value;
   var minCustomers = event.target.mincustomers.value;
   var maxCustomers = event.target.maxcustomers.value;
   var averageCookieSales = event.target.averagecookies.value;
 
-  // create new object with constructro
+  // use data to create a new store instance
   new Store(storeLocation, minCustomers, maxCustomers, averageCookieSales);
 
-  // empties the form fields after the data has been grabbed
-  // event.target.storelocation.value = null;
-  // event.target.mincustomers.value = null;
-  // event.target.maxcustomers.value = null;
-  // event.target.averagecookies.value = null;
-
+  // repaint the page
   salesTable.innerHTML = '';
 
   makeHeaderRow();
   callAllFunctions();
-  grandTotal = 0;
   sumHourlyTotals();
   makeFooterRow();
-
 }
 
-// Event listener for store submission form
 
-
-// calling rest of functions
+// calling rest of functions for the original table
 makeHeaderRow();
 callAllFunctions();
 sumHourlyTotals();
 makeFooterRow();
 
 
+/// EVENT LISTENER ///
 storeForm.addEventListener('submit', handleStoreSubmit);
 
