@@ -15,9 +15,9 @@ th {
   text-transform: uppercase;
 }
 
-/* tr: even{
-
-} */
+tr:nth-child(even) {
+  background-color: rgba(250,128,114,.2); 
+} 
 
 
 tr td:first-child, th, tr td:last-child, tr:last-child{
