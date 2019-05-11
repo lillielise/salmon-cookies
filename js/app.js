@@ -59,6 +59,7 @@ Store.prototype.hourlySalesCalculator = function(){
     this.hourlySales.push(oneHourOfCookies);
     this.totalCookiesForTheDay += oneHourOfCookies;
   }
+
 };
 
 // prototype to render to the DOM
@@ -85,6 +86,7 @@ Store.prototype.render = function(){
   tdEl = document.createElement('td');
   // add the total of total cookies sold to the td
   tdEl.textContent = this.totalCookiesForTheDay;
+  this.totalCookiesForTheDay = 0;
   // append the td
   trEl.appendChild(tdEl);
 
@@ -130,7 +132,7 @@ function makeHeaderRow(){
   var thEl = document.createElement('th');
   // add content to the th elment
   thEl.textContent = 'Locations';
-  // append the th element 
+  // append the th element
   trEl.appendChild(thEl);
 
 
@@ -176,7 +178,7 @@ function makeFooterRow(){
 }
 
 
-// EVENT HANDLER /// 
+// EVENT HANDLER ///
 function handleStoreSubmit(event){
 
   event.preventDefault(); // prevents the page reload on a 'submit' event
