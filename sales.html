@@ -12,20 +12,28 @@
 <form id = "store-form">
 <fieldset>
 <label for="storelocation">Store Location:</label>
-<input name="storelocation" type ="text" size="15" placeholder="store location" required/>
+<input name="storelocation" type \="text" size="15" placeholder="store location" required/>
 
 <label for="mincustomers">Min Customers:</label>
-<input name="mincustomers" type ="text" size="15" placeholder="min customers" required/>
+<input name="mincustomers" type="text" size="15" placeholder="min customers" required/>
 
 <label for="maxcustomers">Max Customers:</label>
-<input name="maxcustomers" type ="text" size="15" placeholder="max customers" required/>
+<input name="maxcustomers" type="text" size="15" placeholder="max customers" required/>
 
 <label for="averagecookies">Average Cookies:</label>
-<input name="averagecookies" type ="text" size="15" placeholder="average cookies" required/>
+<input name="averagecookies" type="text" size="15" placeholder="average cookies" required/>
 
 <button type="submit">Create new store!</button>
 
 </fieldset>
+</form>
+
+<form id = "delete-form">
+  <fieldset>
+    <label for="deletestore">Delete store:</label>
+    <input name="deletestore" type="text" size="15" placeholder="store location" required/>
+    <button type="submit">Delete store!</button>
+  </fieldset>
 </form>
 
 <table id ="sales-table"></table>
