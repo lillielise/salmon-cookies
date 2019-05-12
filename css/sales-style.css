@@ -1,6 +1,6 @@
 
 th, td {
-  padding: 15px;
+  padding: 10px;
   border: 1px solid #262626;
 }
 
@@ -10,11 +10,12 @@ table {
 }
 
 form {
-  padding: 20px;
+  padding: 10px;
+  font-size: 10px;
 }
 
 button {
-  font-size: 15px;
+  font-size: 10px;
 }
 
 tr td:first-child, th {
@@ -40,15 +41,15 @@ h1 {
   margin-bottom: 30px;
   font-size: 30px;
   text-transform: uppercase;
-  letter-spacing: .2em;
+  letter-spacing: 2px;
 }
 
 
 body {
   font-family: 'Montserrat', sans-serif;
   text-align: center;
-  letter-spacing: .05em;
-  margin-left: 100px;
+  width: 900px;
+  margin: auto;
 }
 
 

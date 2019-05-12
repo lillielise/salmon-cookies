@@ -4,14 +4,13 @@
 // global DOM call for sales table and sales form
 var salesTable = document.getElementById('sales-table');
 var storeForm = document.getElementById('store-form');
+var deleteForm = document.getElementById('delete-form');
 
 // setup arrays
 var storesHours = ['6am', '7am', '8am', '9am','10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 
 // hold all the instances of the stores
 var allStores = [];
-// an array that holds arrays for all the stores hours
-var allStoresHourlyTotalsArray = [];
 // an array with the totals for all stores each hour
 var hourlyTotals = [];
 
@@ -30,8 +29,6 @@ function Store(storeLocation, minCustomers, maxCustomers, averageCookieSales){
   this.totalCookiesForTheDay = 0;
   // pushing the instance to the allStores array
   allStores.push(this);
-  // pushing the array of hourly sales for this instance into the allStoresHourlyTotals array
-  allStoresHourlyTotalsArray.push(this.hourlySales);
 }
 
 
@@ -177,14 +174,18 @@ function makeFooterRow(){
   salesTable.appendChild(tfEl);
 }
 
+// Found function on stack overflow 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 
 // EVENT HANDLER ///
 function handleStoreSubmit(event){
-
   event.preventDefault(); // prevents the page reload on a 'submit' event
 
   // capture the data from the form
-  var storeLocation = event.target.storelocation.value;
+  var storeLocation = capitalizeFirstLetter(event.target.storelocation.value);
   var minCustomers = event.target.mincustomers.value;
   var maxCustomers = event.target.maxcustomers.value;
   var averageCookieSales = event.target.averagecookies.value;
@@ -201,6 +202,26 @@ function handleStoreSubmit(event){
   makeFooterRow();
 }
 
+function handleDeleteSubmit(event){
+  event.preventDefault();
+  var storeToDelete = event.target.deletestore.value;
+
+  for (var i = 0; i < allStores.length; i++){
+    if (allStores[i].storeLocation === storeToDelete){
+      allStores.splice(i,1);
+
+      salesTable.innerHTML = '';
+
+      makeHeaderRow();
+      callAllFunctions();
+      sumHourlyTotals();
+      makeFooterRow();
+    }
+  }
+
+}
+
+
 
 // calling rest of functions for the original table
 makeHeaderRow();
@@ -210,5 +231,8 @@ makeFooterRow();
 
 
 /// EVENT LISTENER ///
-storeForm.addEventListener('submit', handleStoreSubmit);
 
+
+deleteForm.addEventListener('submit', handleDeleteSubmit);
+
+storeForm.addEventListener('submit', handleStoreSubmit);
