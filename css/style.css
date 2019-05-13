@@ -17,11 +17,11 @@ body {
 hr {
 
   border: #262626 2px solid;
-  /* position: relative; */
 }
 
 header {
   background-color: salmon;
+  width: 100%;
 }
 
 
@@ -31,12 +31,6 @@ h1 {
   padding: 30px;
   font-size: 45px;
   letter-spacing: 10px;
-}
-
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 100%
 }
 
 
@@ -54,7 +48,7 @@ h1 {
 
 main {
   margin: auto;
-  width: 900px; 
+  width: 63%; 
 }
 
 h2 {
@@ -73,6 +67,10 @@ section {
   float: right;
 }
 
+.about-us p {
+  text-indent: 60px;
+}
+
 div {
   overflow: hidden;
 }
@@ -89,6 +87,12 @@ div {
   font-style: italic;
   overflow: auto;
   height: 150px;
+}
+
+#break {
+  display: block;
+  margin-top: 30px;
+  margin-left: 90px;
 }
 
 .merch div {
@@ -119,11 +123,12 @@ h4 {
 table, th, td {
   padding: 15px;
   border: solid 1px #262626;
-  margin: auto;
 }
 
 footer {
   margin: 20px;
+  margin: auto;
+  width: 63%; 
 }
 
 th {
@@ -133,6 +138,5 @@ th {
 
 
 #locations, li {
-  text-align:left;
   margin: 10px;
 }  

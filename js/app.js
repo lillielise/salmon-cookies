@@ -174,7 +174,7 @@ function makeFooterRow(){
   salesTable.appendChild(tfEl);
 }
 
-// Found function on stack overflow 
+// Found function on stack overflow
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -205,9 +205,8 @@ function handleStoreSubmit(event){
 function handleDeleteSubmit(event){
   event.preventDefault();
   var storeToDelete = event.target.deletestore.value;
-
   for (var i = 0; i < allStores.length; i++){
-    if (allStores[i].storeLocation === storeToDelete){
+    if (allStores[i].storeLocation === storeToDelete || allStores[i].storeLocation.toLowerCase() === storeToDelete){
       allStores.splice(i,1);
 
       salesTable.innerHTML = '';
